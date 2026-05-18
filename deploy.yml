@@ -1,0 +1,19 @@
+---
+- hosts: localhost
+  become: yes
+  
+  tasks:
+    - name: Stop old container
+      command: docker stop myapp
+      ignore_errors: yes
+
+    - name: Remove old container
+      command: docker rm myapp
+      ignore_errors: yes
+
+    - name: Pull latest image
+      command: docker pull myapp:latest
+      ignore_errors: yes
+
+    - name: Run new container
+      command: docker run -d --name myapp -p 80:8080 myapp:latest
